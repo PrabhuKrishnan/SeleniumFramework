@@ -15,7 +15,7 @@ public class HomePageTest extends BaseTest {
         LoginPage loginPage = new LoginPage();
         String actualTile = loginPage.loginIntoApp("Admin", "admin123").getHomePageTitle();
         System.out.println("actual title from test" + actualTile);
-        String  expectedTitle ="ORANGEHRM22";
+        String  expectedTitle ="OrangeHRM";
 
         Assert.assertEquals(actualTile,expectedTitle);
 

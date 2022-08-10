@@ -1,28 +1,25 @@
 package com.app.driver;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 public final class DriverFactory {
 
-    private DriverFactory(){}
+    private DriverFactory() {
+    }
 
-    public static WebDriver getDriver(String browserName) {
+    public static WebDriver getDriver(String runMode, String browserName) {
 
-        WebDriver driver=null;
+        WebDriver driver = null;
+        if (runMode.equalsIgnoreCase("local")) {
 
-        if (browserName.equalsIgnoreCase("chrome"))
-        {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            driver = LocalDriverFactory.getLocalDriver(browserName);
+
+        } else if (runMode.equalsIgnoreCase("remote")) {
+
+            driver =   RemoteDriverFactory.getRemoteDriver(browserName);
         }
-        else if (browserName.equalsIgnoreCase("firefox"))
-        {
-            WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
-        }
+
         return driver;
     }
 }
