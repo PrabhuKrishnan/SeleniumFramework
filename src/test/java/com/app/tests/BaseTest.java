@@ -8,13 +8,17 @@ import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
 
+    protected BaseTest(){
+
+    }
+
     @BeforeMethod
-    public void setUp() {
+    protected void setUp() {
         Driver.initDriver();
     }
 
     @AfterMethod
-    public void afterMethod() {
+    protected void afterMethod() {
         Driver.quitDriver();
 
     }

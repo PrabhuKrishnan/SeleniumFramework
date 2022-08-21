@@ -1,33 +1,58 @@
 package com.app.reports;
 
 import com.app.constants.FrameworkConstants;
+import com.app.enums.CategoryType;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
 public final class ExtentReport {
-    private static ExtentReports extent;
-    private static ExtentTest extentTest;
+    private static ExtentReports extentReports;
 
     private ExtentReport() {
     }
 
     public static void initReports() {
-        extent = new ExtentReports();
-        ExtentSparkReporter spark = new ExtentSparkReporter(FrameworkConstants.getReportPath());
-        extent.attachReporter(spark);
-    }
 
-    public static void flushReports() {
-        extent.flush();
+        if(Objects.isNull(extentReports)) {
+            extentReports = new ExtentReports();
+            ExtentSparkReporter spark = new ExtentSparkReporter(FrameworkConstants.getExtentReportFilePath());
+            extentReports.attachReporter(spark);
+        }
     }
+    public static void flushReports() {
+        if(Objects.nonNull(extentReports)) {
+            extentReports.flush();
+        }
+        ExtentReportManger.unLoad();
+        try {
+            Desktop.getDesktop().browse(new File(FrameworkConstants.getExtentReportFilePath()).toURI());
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+
+        }    }
     public static void createTest(String testCaseName)
     {
-        extentTest = extent.createTest(testCaseName);
+        ExtentTest extentTest = extentReports.createTest(testCaseName);
         ExtentReportManger.setExtentTest(extentTest);
+
     }
-    public static void assignAuthor(String author)
+    public static void assignAuthor(String[] authors)
     {
-        ExtentReportManger.getExtentTest().assignAuthor(author);
+        for (String author : authors ) {
+            ExtentReportManger.getExtentTest().assignAuthor(author);
+        }
+    }
+    public static void assignCategory(CategoryType[] categories)
+    {
+        for (CategoryType category : categories ) {
+            ExtentReportManger.getExtentTest().assignCategory(category.toString());
+        }
     }
 }

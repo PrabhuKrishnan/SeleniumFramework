@@ -1,5 +1,6 @@
 package com.app.pages.pagecomponents;
 
+import com.app.enums.WaitType;
 import org.openqa.selenium.By;
 
 import static com.app.utils.SeleniumUtils.click;
@@ -10,7 +11,7 @@ public class TopMenuComponent {
 
      public void clickAdmin()
      {
-         click(LNK_ADMIN,"Admin Link");
+         click(LNK_ADMIN, WaitType.NONE,"Link");
      }
 
     /* public String getAdminLinkText()
