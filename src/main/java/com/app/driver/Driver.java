@@ -2,7 +2,10 @@ package com.app.driver;
 
 import com.app.config.ConfigFactory;
 import org.openqa.selenium.WebDriver;
+
+import java.io.ObjectInputStream;
 import java.time.Duration;
+import java.util.Objects;
 
 public final class Driver {
 
@@ -12,7 +15,8 @@ public final class Driver {
     public static void initDriver()  {
         String browser = ConfigFactory.getConfig().browser();
         String mode = ConfigFactory.getConfig().runMode();
-        if (DriverManager.getDriver() == null) {
+        //if the driver is null, then only create an instance for the browser
+        if (Objects.isNull(DriverManager.getDriver())) {
             WebDriver driver = DriverFactory.getDriver(mode,browser);
             DriverManager.setDriver(driver);
             DriverManager.getDriver().manage().window().maximize();
@@ -25,6 +29,8 @@ public final class Driver {
         if (DriverManager.getDriver() != null) {
             DriverManager.getDriver().quit();
             DriverManager.setDriver(null);
+            DriverManager.unLoad();
+
         }
     }
 }

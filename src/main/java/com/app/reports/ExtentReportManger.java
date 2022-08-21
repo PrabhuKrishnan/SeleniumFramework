@@ -1,21 +1,29 @@
 package com.app.reports;
 
+import com.app.listeners.TestListener;
 import com.aventstack.extentreports.ExtentTest;
 
-public final class ExtentReportManger {
+import java.util.Objects;
+
+public final class ExtentReportManger  {
 
     private ExtentReportManger() {
     }
 
-    private static final ThreadLocal<ExtentTest> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
 
     static ExtentTest getExtentTest() {
-        return threadLocal.get();
+        return extentTest.get();
     }
 
     static void setExtentTest(ExtentTest test) {
-        threadLocal.set(test);
-
+        if(Objects.nonNull(test)) {
+            extentTest.set(test);
+        }
+    }
+    static void unLoad()
+    {
+        extentTest.remove();
     }
 
 }
